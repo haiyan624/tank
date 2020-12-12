@@ -7,32 +7,31 @@ import wq.tank.strategy.FourFireStrategy;
 import java.awt.*;
 import java.util.Random;
 
-public class Tank  extends GameObject{
+public class Tank extends GameObject {
     public static int WIDTH = ResourceMgr.goodTankU.getWidth();
 
     public static int HEIGHT = ResourceMgr.goodTankU.getHeight();
     private static int SPEED = 10;
     public Dir dir;
     private boolean isMove = true;
-    public GameModel gm;
     private boolean living = true;
     public Group group;
     private Random random = new Random();
     public Rectangle rect = new Rectangle();
     FireStrategy fireStrategy;
 
-    public Tank(int x, int y, Dir dir, GameModel gm, Group group) {
+    public Tank(int x, int y, Dir dir, Group group) {
         this.x = x;
         this.y = y;
         this.dir = dir;
-        this.gm = gm;
         this.group = group;
 
         rect.x = this.x;
         rect.y = this.y;
         rect.width = WIDTH;
         rect.height = HEIGHT;
-        if(group==Group.GOOD){
+        GameModel.getInstance().add(this);
+        if (group == Group.GOOD) {
             fireStrategy = new FourFireStrategy();
         } else {
             fireStrategy = new DefaultFireStrategy();
@@ -53,7 +52,7 @@ public class Tank  extends GameObject{
 
     @Override
     public void paint(Graphics g) {
-        if (!living) gm.remove(this);
+        if (!living) GameModel.getInstance().remove(this);
         switch (dir) {
             case Left:
                 g.drawImage(this.group == Group.GOOD ? ResourceMgr.goodTankL : ResourceMgr.badTankL, x, y, null);

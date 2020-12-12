@@ -8,7 +8,6 @@ import java.util.List;
 public class MyFrame extends Frame {
     public static final int GAME_WIDTH = 800;
     public static final int GAME_HEIGHT = 600;
-    private GameModel gm = new GameModel();
 
     public MyFrame() {
         this.setVisible(true);
@@ -42,7 +41,7 @@ public class MyFrame extends Frame {
 
     @Override
     public void paint(Graphics g) {
-        gm.paint(g);
+        GameModel.getInstance().paint(g);
     }
 
     private class MyKeyListener extends KeyAdapter {
@@ -86,13 +85,13 @@ public class MyFrame extends Frame {
                     bD = false;
                     break;
                 case KeyEvent.VK_CONTROL:
-                    gm.getMainTank().fire();
+                    GameModel.getInstance().getMainTank().fire();
             }
             setMainDir();
         }
 
         private void setMainDir() {
-            Tank mainTank = gm.getMainTank();
+            Tank mainTank = GameModel.getInstance().getMainTank();
             if (!bL && !bR && !bU && !bD) {
                 mainTank.setMove(false);
             } else {

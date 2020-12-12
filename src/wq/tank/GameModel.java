@@ -7,28 +7,36 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameModel {
-    private Tank myTank = new Tank(200, 200, Dir.Up, this, Group.GOOD);
+    private Tank myTank;
     //    public List<Tank> tanks = new ArrayList<>();
 //    public List<Bullet> bullets = new ArrayList<>();
 //    public List<Explode> explodes = new ArrayList<>();
     private List<GameObject> objects = new ArrayList<>();
     private ColliderChain chain = new ColliderChain();
+    private static final GameModel INSTANCE = new GameModel();
 
-    public GameModel() {
+    static {
+        INSTANCE.myTank = new Tank(200, 200, Dir.Up, Group.GOOD);
         int initTankCount = Integer.parseInt((String) PropertyMgr.get("initTankCount"));
 
         // 初始化敌方坦克
         for (int i = 0; i < initTankCount; i++) {
-            add(new Tank(50 + i * 80, 200, Dir.Down, this,Group.BAD));
+            new Tank(50 + i * 80, 200, Dir.Down,Group.BAD);
         }
+    }
+    private GameModel() {
+
+    }
+    public static GameModel getInstance(){
+        return INSTANCE;
     }
 
     public void add(GameObject go) {
-        this.objects.add(go);
+        INSTANCE.objects.add(go);
     }
 
     public void remove(GameObject go) {
-        this.objects.remove(go);
+        INSTANCE.objects.remove(go);
     }
 
     public void paint(Graphics g) {
@@ -49,7 +57,6 @@ public class GameModel {
             for(int j=i+1; j<objects.size(); j++) { //Comparator.compare(o1,o2)
                 GameObject o1 = objects.get(i);
                 GameObject o2 = objects.get(j);
-                //for
                 chain.collide(o1, o2);
             }
         }

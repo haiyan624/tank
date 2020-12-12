@@ -7,22 +7,20 @@ public class Bullet extends GameObject{
     public static int HEIGHT = ResourceMgr.bulletD.getHeight();
     private static int SPEED = 10;
     public boolean living = true;
-    GameModel gm;
     private Dir dir;
     public final Group group;
     public Rectangle rect = new Rectangle();
 
-    public Bullet(int x, int y, Dir dir, GameModel gm, Group group) {
+    public Bullet(int x, int y, Dir dir,  Group group) {
         this.x = x;
         this.y = y;
         this.dir = dir;
-        this.gm = gm;
         this.group = group;
         rect.x = this.x;
         rect.y = this.y;
         rect.width = WIDTH;
         rect.height = HEIGHT;
-        gm.add(this);
+        GameModel.getInstance().add(this);
 
     }
 
@@ -34,7 +32,7 @@ public class Bullet extends GameObject{
     public void paint(Graphics g) {
 
         if (!living) {
-            gm.remove(this);
+            GameModel.getInstance().remove(this);
         }
 
         switch (dir) {
