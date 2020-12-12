@@ -8,15 +8,16 @@ public class Tank {
 
     public static int HEIGHT = ResourceMgr.goodTankU.getHeight();
     private static int SPEED = 10;
-    private int x;
-    private int y;
-    private Dir dir;
+    public int x;
+    public int y;
+    public Dir dir;
     private boolean isMove = true;
-    private MyFrame tf;
+    public MyFrame tf;
     private boolean living = true;
-    private Group group;
+    public Group group;
     private Random random = new Random();
     Rectangle rect = new Rectangle();
+    FireStrategy fireStrategy;
 
     public Tank(int x, int y, Dir dir, MyFrame tf, Group group) {
         this.x = x;
@@ -29,6 +30,11 @@ public class Tank {
         rect.y = this.y;
         rect.width = WIDTH;
         rect.height = HEIGHT;
+        if(group==Group.GOOD){
+            fireStrategy = new FourFireStrategy();
+        } else {
+            fireStrategy = new DefaultFireStrategy();
+        }
     }
 
     public void setDir(Dir dir) {
@@ -44,12 +50,7 @@ public class Tank {
     }
 
     public void fire() {
-        int bX = x + (WIDTH / 2) - Bullet.WIDTH / 2;
-        int bY = y + (HEIGHT / 2) - Bullet.HEIGHT / 2;
-        Bullet bullet = new Bullet(bX, bY, dir, tf, this.group);
-        tf.bullets.add(bullet);
-        if (this.group == Group.GOOD) new Thread(() -> new Audio("audio/tank_fire.wav").play()).start();
-
+        fireStrategy.fire(this);
     }
 
     public void paint(Graphics g) {
