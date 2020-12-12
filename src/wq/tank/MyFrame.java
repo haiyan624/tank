@@ -8,10 +8,7 @@ import java.util.List;
 public class MyFrame extends Frame {
     public static final int GAME_WIDTH = 800;
     public static final int GAME_HEIGHT = 600;
-    private Tank myTank = new Tank(200, 200, Dir.Up, this, Group.GOOD);
-    public List<Tank> tanks = new ArrayList<>();
-    List<Bullet> bullets = new ArrayList<>();
-    List<Explode> explodes = new ArrayList<>();
+    private GameModel gm = new GameModel();
 
     public MyFrame() {
         this.setVisible(true);
@@ -25,6 +22,11 @@ public class MyFrame extends Frame {
             }
         });
         this.addKeyListener(new MyKeyListener());
+
+        int initTankCount = Integer.parseInt((String) PropertyMgr.get("initTankCount"));
+        for (int i = 0; i < initTankCount; i++) {
+            gm.tanks.add(new Tank(50 + i * 80, 200, Dir.Up, gm, Group.BAD));
+        }
     }
 
     Image offScreenImage = null;
@@ -45,30 +47,7 @@ public class MyFrame extends Frame {
 
     @Override
     public void paint(Graphics g) {
-
-        Color c = g.getColor();
-        g.setColor(Color.WHITE);
-        g.drawString("子弹的数量:" + bullets.size(), 10, 60);
-        g.drawString("敌人的数量:" + tanks.size(), 10, 80);
-        g.setColor(c);
-
-        myTank.paint(g);
-        for (int i = 0; i < bullets.size(); i++) {
-            for (int j = 0; j < tanks.size(); j++)
-                bullets.get(i).collideWith(tanks.get(j));
-        }
-
-        for (int i = 0; i < bullets.size(); i++) {
-            bullets.get(i).paint(g);
-        }
-
-        for (int i = 0; i < tanks.size(); i++) {
-            tanks.get(i).paint(g);
-        }
-
-        for (int i = 0; i < explodes.size(); i++) {
-            explodes.get(i).paint(g);
-        }
+        gm.paint(g);
     }
 
     private class MyKeyListener extends KeyAdapter {
@@ -112,20 +91,21 @@ public class MyFrame extends Frame {
                     bD = false;
                     break;
                 case KeyEvent.VK_CONTROL:
-                    myTank.fire();
+                    gm.getMainTank().fire();
             }
             setMainDir();
         }
 
         private void setMainDir() {
+            Tank mainTank = gm.getMainTank();
             if (!bL && !bR && !bU && !bD) {
-                myTank.setMove(false);
+                mainTank.setMove(false);
             } else {
-                myTank.setMove(true);
-                if (bL) myTank.setDir(Dir.Left);
-                if (bR) myTank.setDir(Dir.Right);
-                if (bU) myTank.setDir(Dir.Up);
-                if (bD) myTank.setDir(Dir.Down);
+                mainTank.setMove(true);
+                if (bL) mainTank.setDir(Dir.Left);
+                if (bR) mainTank.setDir(Dir.Right);
+                if (bU) mainTank.setDir(Dir.Up);
+                if (bD) mainTank.setDir(Dir.Down);
             }
         }
     }
