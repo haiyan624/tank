@@ -1,22 +1,24 @@
 package wq.tank;
 
+import wq.tank.strategy.DefaultFireStrategy;
+import wq.tank.strategy.FireStrategy;
+import wq.tank.strategy.FourFireStrategy;
+
 import java.awt.*;
 import java.util.Random;
 
-public class Tank {
+public class Tank  extends GameObject{
     public static int WIDTH = ResourceMgr.goodTankU.getWidth();
 
     public static int HEIGHT = ResourceMgr.goodTankU.getHeight();
     private static int SPEED = 10;
-    public int x;
-    public int y;
     public Dir dir;
     private boolean isMove = true;
     public GameModel gm;
     private boolean living = true;
     public Group group;
     private Random random = new Random();
-    Rectangle rect = new Rectangle();
+    public Rectangle rect = new Rectangle();
     FireStrategy fireStrategy;
 
     public Tank(int x, int y, Dir dir, GameModel gm, Group group) {
@@ -41,10 +43,6 @@ public class Tank {
         this.dir = dir;
     }
 
-    public boolean isMove() {
-        return isMove;
-    }
-
     public void setMove(boolean move) {
         isMove = move;
     }
@@ -53,8 +51,9 @@ public class Tank {
         fireStrategy.fire(this);
     }
 
+    @Override
     public void paint(Graphics g) {
-        if (!living) gm.tanks.remove(this);
+        if (!living) gm.remove(this);
         switch (dir) {
             case Left:
                 g.drawImage(this.group == Group.GOOD ? ResourceMgr.goodTankL : ResourceMgr.badTankL, x, y, null);

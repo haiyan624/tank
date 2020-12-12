@@ -1,4 +1,6 @@
-package wq.tank;
+package wq.tank.strategy;
+
+import wq.tank.*;
 
 public class FourFireStrategy implements  FireStrategy {
     @Override

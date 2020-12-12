@@ -2,18 +2,15 @@ package wq.tank;
 
 import java.awt.*;
 
-public class Bullet {
+public class Bullet extends GameObject{
     public static int WIDTH = ResourceMgr.bulletD.getWidth();
     public static int HEIGHT = ResourceMgr.bulletD.getHeight();
     private static int SPEED = 10;
-    private boolean living = true;
+    public boolean living = true;
     GameModel gm;
-
-    private int x;
-    private int y;
     private Dir dir;
-    private final Group group;
-    Rectangle rect = new Rectangle();
+    public final Group group;
+    public Rectangle rect = new Rectangle();
 
     public Bullet(int x, int y, Dir dir, GameModel gm, Group group) {
         this.x = x;
@@ -25,7 +22,7 @@ public class Bullet {
         rect.y = this.y;
         rect.width = WIDTH;
         rect.height = HEIGHT;
-        gm.bullets.add(this);
+        gm.add(this);
 
     }
 
@@ -33,10 +30,11 @@ public class Bullet {
         return dir;
     }
 
+    @Override
     public void paint(Graphics g) {
 
         if (!living) {
-            gm.bullets.remove(this);
+            gm.remove(this);
         }
 
         switch (dir) {
@@ -81,18 +79,6 @@ public class Bullet {
 
         if (x < 0 | x > MyFrame.GAME_WIDTH | y < 0 | y > MyFrame.GAME_HEIGHT) {
             living = false;
-        }
-    }
-
-    public void collideWith(Tank tank) {
-        if (tank.getGroup() == this.group) return;
-
-        if(rect.intersects(tank.rect)) {
-            tank.setLiving(false);
-            this.living=false;
-            int eX = tank.getX() + Tank.WIDTH/2 - Explode.WIDTH/2;
-            int eY = tank.getY() + Tank.HEIGHT/2 - Explode.HEIGHT/2;
-            gm.explodes.add(new Explode(eX, eY, gm));
         }
     }
 }

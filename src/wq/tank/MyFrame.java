@@ -22,11 +22,6 @@ public class MyFrame extends Frame {
             }
         });
         this.addKeyListener(new MyKeyListener());
-
-        int initTankCount = Integer.parseInt((String) PropertyMgr.get("initTankCount"));
-        for (int i = 0; i < initTankCount; i++) {
-            gm.tanks.add(new Tank(50 + i * 80, 200, Dir.Up, gm, Group.BAD));
-        }
     }
 
     Image offScreenImage = null;
