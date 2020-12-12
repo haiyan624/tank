@@ -19,6 +19,7 @@ public class Tank extends GameObject {
     private Random random = new Random();
     public Rectangle rect = new Rectangle();
     FireStrategy fireStrategy;
+    private int oldX, oldY;
 
     public Tank(int x, int y, Dir dir, Group group) {
         this.x = x;
@@ -67,7 +68,8 @@ public class Tank extends GameObject {
                 g.drawImage(this.group == Group.GOOD ? ResourceMgr.goodTankD : ResourceMgr.badTankD, x, y, null);
                 break;
         }
-
+        oldX = x;
+        oldY = y;
         move();
         if (group == Group.BAD && random.nextInt(100) > 95) {
             fire();
@@ -126,5 +128,10 @@ public class Tank extends GameObject {
 
     public Group getGroup() {
         return group;
+    }
+
+    public void back() {
+        x = oldX;
+        y = oldY;
     }
 }

@@ -2,7 +2,7 @@ package wq.tank;
 
 import java.awt.*;
 
-public class Bullet extends GameObject{
+public class Bullet extends GameObject {
     public static int WIDTH = ResourceMgr.bulletD.getWidth();
     public static int HEIGHT = ResourceMgr.bulletD.getHeight();
     private static int SPEED = 10;
@@ -11,7 +11,7 @@ public class Bullet extends GameObject{
     public final Group group;
     public Rectangle rect = new Rectangle();
 
-    public Bullet(int x, int y, Dir dir,  Group group) {
+    public Bullet(int x, int y, Dir dir, Group group) {
         this.x = x;
         this.y = y;
         this.dir = dir;
@@ -78,5 +78,9 @@ public class Bullet extends GameObject{
         if (x < 0 | x > MyFrame.GAME_WIDTH | y < 0 | y > MyFrame.GAME_HEIGHT) {
             living = false;
         }
+    }
+
+    public void die() {
+        living = false;
     }
 }
