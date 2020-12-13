@@ -21,6 +21,8 @@ public class Bullet extends GameObject {
         rect.width = WIDTH;
         rect.height = HEIGHT;
         GameModel.getInstance().add(this);
+        this.width = WIDTH;
+        this.height = HEIGHT;
 
     }
 

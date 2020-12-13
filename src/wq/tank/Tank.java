@@ -31,6 +31,8 @@ public class Tank extends GameObject {
         rect.y = this.y;
         rect.width = WIDTH;
         rect.height = HEIGHT;
+        this.width=WIDTH;
+        this.height=HEIGHT;
         GameModel.getInstance().add(this);
         if (group == Group.GOOD) {
             fireStrategy = new FourFireStrategy();
