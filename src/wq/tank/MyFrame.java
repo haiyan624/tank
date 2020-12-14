@@ -86,7 +86,7 @@ public class MyFrame extends Frame {
                     bD = false;
                     break;
                 case KeyEvent.VK_CONTROL:
-                    GameModel.getInstance().getMainTank().fire();
+                    GameModel.getInstance().getMainTank().handleFire();
             }
             setMainDir();
         }
