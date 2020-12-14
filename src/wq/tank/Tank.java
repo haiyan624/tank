@@ -1,10 +1,16 @@
 package wq.tank;
 
+import wq.tank.observer.IListener;
+import wq.tank.observer.TankCtrlListener;
+import wq.tank.observer.TankEvent;
 import wq.tank.strategy.DefaultFireStrategy;
 import wq.tank.strategy.FireStrategy;
 import wq.tank.strategy.FourFireStrategy;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 public class Tank extends GameObject {
@@ -31,8 +37,8 @@ public class Tank extends GameObject {
         rect.y = this.y;
         rect.width = WIDTH;
         rect.height = HEIGHT;
-        this.width=WIDTH;
-        this.height=HEIGHT;
+        this.width = WIDTH;
+        this.height = HEIGHT;
         GameModel.getInstance().add(this);
         if (group == Group.GOOD) {
             fireStrategy = new FourFireStrategy();
@@ -136,4 +142,13 @@ public class Tank extends GameObject {
         x = oldX;
         y = oldY;
     }
+
+    private List<IListener> listeners = Arrays.asList(new TankCtrlListener());
+
+    public void handleFire() {
+        for (IListener listener : listeners) {
+            listener.fireListener(new TankEvent(this));
+        }
+    }
+
 }
