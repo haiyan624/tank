@@ -8,7 +8,7 @@ public class FourFireStrategy implements  FireStrategy {
         int bX = tank.x + (tank.WIDTH / 2) - Bullet.WIDTH / 2;
         int bY = tank.y + (tank.HEIGHT / 2) - Bullet.HEIGHT / 2;
         for (Dir value : Dir.values()) {
-            new Bullet(bX, bY, value, tank.group);
+            GameModel.getInstance().add(new Bullet(bX, bY, value, tank.group));
         }
 
         if (tank.group == Group.GOOD) new Thread(() -> new Audio("audio/tank_fire.wav").play()).start();
